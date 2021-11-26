@@ -55,7 +55,9 @@ class ClientThread : public Thread{
 				}
 
 				socket.Read(msg);//get the feedback from the server
-				if(msg.ToString()!="Message received"){
+				msg_str=msg.ToString();
+				std::cout << "Server Response: "<<msg_str<<std::endl;
+				if(msg_str==""){
 					flag=false;
 					break;
 				}

@@ -38,15 +38,15 @@ class SocketThread: public Thread// create an another instance taht represent th
                     std::string str=msg.ToString();//covert byteArray to string.
                     if(str=="done")//so the application can check if the msg is termination cmd
                     {
-                        std::cout<<"Socket terminated"<<std::endl<<"Server Off"<< std::endl;
+                        std::cout<<"Socket terminated"<<std::endl;
                         break;
                     }
-
+                    std::transform(str.begin(),str.end(), str.begin(), ::toupper);
                     msg=ByteArray(str);//once we done checking with the cmd, dispaly the message on server
                     std::cout<<"Received message from client: "<<str<<std::endl;
 
                     //send the receive msg to the client so they know the msg was sent to the server, successfully
-                    msg=ByteArray("Message received");
+                    
                     socket.Write(msg);
                     std::cout<<"message sent"<< std::endl;
 
