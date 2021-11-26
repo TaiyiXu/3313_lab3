@@ -11,7 +11,7 @@ using namespace Sync;
 
 // This thread handles the server operations
 
-class SocketThread: public Thread
+class SocketThread: public Thread// create an another instance taht represent the socket connect to the server to handle the byteArray from client
 {
     private:
         Socket& socket;//the socket connecting to the server.
@@ -35,16 +35,17 @@ class SocketThread: public Thread
                     socket.Read(msg);// reading the data from socket.
                     std::cout<<"Reading message"<<std::endl;
 
-                    std::string str=msg.ToString();
-                    if(str=="done")
+                    std::string str=msg.ToString();//covert byteArray to string.
+                    if(str=="done")//so the application can check if the msg is termination cmd
                     {
                         std::cout<<"Socket terminated"<<std::endl<<"Press enter to terminate the sever..."<< std::endl;
                         break;
                     }
 
-                    msg=ByteArray(str);
+                    msg=ByteArray(str);//once we done checking with the cmd, dispaly the message on server
                     std::cout<<"Received message from client: "<<str<<std::endl;
 
+                    //send the receive msg to the client so they know the msg was sent to the server, successfully
                     msg=ByteArray("Message received");
                     socket.Write(msg);
                     std::cout<<"message sent"<< std::endl;
@@ -62,7 +63,7 @@ class ServerThread : public Thread
 {
 private:
     SocketServer& server;
-    std::vector<SocketThread*> socketThreadvector;
+    std::vector<SocketThread*> socketThreadvector;//create a verctor list of socketThread to keep track how many socket are connected to the server
     bool terminate = false;
 
 public:
@@ -90,6 +91,7 @@ public:
         // A reference to this pointer 
         Socket& socketReference = *newConnection;
 
+        // whenever a new connection is made, push it to the socket thread vector list
         socketThreadvector.push_back(new SocketThread(socketReference));
         }
     }
@@ -110,7 +112,7 @@ int main(void)
 	
     // This will wait for input to shutdown the server
     FlexWait cinWaiter(1, stdin);
-    cinWaiter.Wait();
+    cinWaiter.Wait();// wait for client to enter new message 
     std::cin.get();
 
     //by entering enter, the server will read as pass this lane and then will execute next command line,
