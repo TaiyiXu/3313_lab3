@@ -38,7 +38,7 @@ class SocketThread: public Thread// create an another instance taht represent th
                     std::string str=msg.ToString();//covert byteArray to string.
                     if(str=="done")//so the application can check if the msg is termination cmd
                     {
-                        std::cout<<"Socket terminated"<<std::endl<<"Press enter to terminate the sever..."<< std::endl;
+                        std::cout<<"Socket terminated"<<std::endl<<"Server Off"<< std::endl;
                         break;
                     }
 
@@ -50,6 +50,7 @@ class SocketThread: public Thread// create an another instance taht represent th
                     socket.Write(msg);
                     std::cout<<"message sent"<< std::endl;
 
+                    
                 }catch(...){
 
                 }
@@ -102,7 +103,7 @@ int main(void)
 {
     std::cout << "I am a server." << std::endl;
     std::cout << "Enter to terminate the server if you opened it by mistake" << std::endl;
-    std::cout.flush();
+    std::cout.flush()<<std::endl;
 
     // Create our server
     SocketServer server(3000);    
@@ -116,8 +117,9 @@ int main(void)
     std::cin.get();
 
     //by entering enter, the server will read as pass this lane and then will execute next command line,
-    //which is shutdone();
+    //which is shutdown();
     // Shut down and clean up the server
+ 
     server.Shutdown();
 
 }

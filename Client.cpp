@@ -31,7 +31,7 @@ class ClientThread : public Thread{
 		{
 			bool trigger = false;// initially, we set the state of the server connection with the server is close 
 			try{// by first trying the 
-				int result = socket.Open();
+				int result=socket.Open();
 			}catch(...){// once the the error is catched 
 				std::cout<< "Need to run server"<<std::endl;
 				trigger=true;// set the server trigger is still on 
@@ -55,7 +55,10 @@ class ClientThread : public Thread{
 				}
 
 				socket.Read(msg);//get the feedback from the server
-
+				if(msg.ToString()!="Message received"){
+					flag=false;
+					break;
+				}
 				msg_str=msg.ToString();//convert ByteArray msg to string and print
 				std::cout<<msg_str<<std::endl;
 			}
